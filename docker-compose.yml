@@ -1,6 +1,8 @@
 networks:
   toubilib.net:
     driver: bridge
+  mynet.net:
+    driver: bridge
 
 services:
   # service api.toubeelib : api pour la prise de rdv
@@ -75,3 +77,30 @@ services:
     networks:
       - toubilib.net
 
+#######################################
+### RabbitMQ Service
+###
+#######################################
+  rabbitmq:
+    image: rabbitmq:4-management
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    networks:
+      - mynet.net
+    volumes:
+      - ./rabbitmq_dir:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=@dm1#!
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 8s
+      timeout: 30s
+      retries: 3
+
+  app.consume:
+    image: 'php:8.3-cli'
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
