@@ -1,16 +1,19 @@
 <?php
 
-use GuzzleHttp\Client;
+namespace gateway\config;
+
+
 use Psr\Container\ContainerInterface;
-use toubilib\api\actions\PraticiensAction;
+use gateway\api\actions\GatewayPraticiensAction;
+use GuzzleHttp\Client;
 
 return [
     'praticien.guzzle.client' => function (ContainerInterface $c) {
         return new Client([
-            'base_url' => $c->get('toubilib.praticien.api')
+            'base_url' => $c->get('api.gateway.toubilib'),
         ]);
     },
-    PraticiensAction::class => function (ContainerInterface $c) {
-        return new PraticiensAction($c->get('praticien.guzzle.client'));
+    GatewayPraticiensAction::class => function (ContainerInterface $c) {
+        return new GatewayPraticiensAction($c->get('praticien.guzzle.client'));
     }
 ];

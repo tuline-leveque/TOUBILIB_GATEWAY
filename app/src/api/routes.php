@@ -28,6 +28,7 @@ use toubilib\api\middlewares\JwtAuthMiddleware;
 return function( App $app): App {
 //    GET
     $app->get('/praticiens', PraticiensAction::class); // pas authz
+
     $app->get('/praticiens/{id_prat}', PraticienAction::class); // pas d'authz
     $app->get("/praticiens/{id_prat}/rdvs", PraticienRdvAction::class)
         ->add(AuthzAccessRdvsMiddleware::class)

@@ -1,15 +1,13 @@
 <?php
 
 use DI\ContainerBuilder;
-use Dotenv\Dotenv;
 use Slim\Factory\AppFactory;
 
-$dotenv = Dotenv::createImmutable(__DIR__ );
-$dotenv->load();
 
 
 $builder = new ContainerBuilder();
 $builder->useAutowiring(false);
+$builder->addDefinitions(__DIR__ . '/settings.php');
 $builder->addDefinitions(__DIR__ . '/services.php');
 
 $c = $builder->build();
