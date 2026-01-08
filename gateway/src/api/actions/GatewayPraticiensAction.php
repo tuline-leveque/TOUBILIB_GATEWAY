@@ -20,8 +20,7 @@ class GatewayPraticiensAction {
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
         try {
-            var_dump($this->remote_praticien_service);
-            return $this->remote_praticien_service->get("/praticiens");
+            return $this->remote_praticien_service->get("praticiens");
         } catch (ClientException $e) {
             throw new HttpNotFoundException($request, $e);
         }

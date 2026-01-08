@@ -10,7 +10,7 @@ use GuzzleHttp\Client;
 return [
     'praticien.guzzle.client' => function (ContainerInterface $c) {
         return new Client([
-            'base_url' => $c->get('api.gateway.toubilib'),
+            'base_uri' => $c->get('api.gateway.toubilib'),
         ]);
     },
     GatewayPraticiensAction::class => function (ContainerInterface $c) {
