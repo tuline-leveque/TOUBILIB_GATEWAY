@@ -1,7 +1,7 @@
 <?php
 
 
-namespace toubilib\core\exceptions;
+namespace rdvs\core\exceptions;
 
 use Exception;
 

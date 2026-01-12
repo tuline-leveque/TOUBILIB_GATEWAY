@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
+use rdvs\api\middlewares\CreerRendezVousValidationMiddleware;
 use Slim\App;
-use toubilib\api\actions\AnnulerRdvAction;
-use toubilib\api\actions\CreateRdvAction;
-use toubilib\api\actions\PatientRdvAction;
-use toubilib\api\actions\PraticienRdvAction;
-use toubilib\api\actions\RdvDetailsAction;
-use toubilib\api\actions\ValiderRdvAction;
-use toubilib\api\middlewares\CreerRendezVousValidationMiddleware;
+use rdvs\api\actions\AnnulerRdvAction;
+use rdvs\api\actions\CreateRdvAction;
+use rdvs\api\actions\PatientRdvAction;
+use rdvs\api\actions\PraticienRdvAction;
+use rdvs\api\actions\ValiderRdvAction;
 
 
 return function( App $app): App {

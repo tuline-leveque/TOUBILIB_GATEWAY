@@ -1,7 +1,6 @@
 <?php
 
-namespace toubilib\api\dtos;
-
+namespace praticiens\api\dtos;
 
 use Exception;
 

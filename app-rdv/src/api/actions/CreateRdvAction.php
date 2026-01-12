@@ -1,12 +1,12 @@
 <?php
 
-namespace toubilib\api\actions;
+namespace rdvs\api\actions;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use toubilib\core\application\usecases\interfaces\ServiceRendezVousInterface;
-use toubilib\core\exceptions\CreneauException;
-use toubilib\core\exceptions\EntityNotFoundException;
+use rdvs\core\application\usecases\interfaces\ServiceRendezVousInterface;
+use rdvs\core\exceptions\CreneauException;
+use rdvs\core\exceptions\EntityNotFoundException;
 
 class CreateRdvAction {
     private ServiceRendezVousInterface $serviceRdv;

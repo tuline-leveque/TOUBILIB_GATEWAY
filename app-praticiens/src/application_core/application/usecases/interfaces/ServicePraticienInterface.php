@@ -1,8 +1,8 @@
 <?php
 
-namespace toubilib\core\application\usecases\interfaces;
+namespace praticiens\core\application\usecases\interfaces;
 
-use toubilib\api\dtos\PraticienDTO;
+use praticiens\api\dtos\PraticienDTO;
 
 interface ServicePraticienInterface
 {

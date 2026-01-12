@@ -1,10 +1,9 @@
 <?php
 
-namespace toubilib\api\actions;
-use _PHPStan_2d0955352\Nette\Neon\Exception;
+namespace rdvs\api\actions;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use toubilib\core\application\usecases\interfaces\ServiceRendezVousInterface;
+use rdvs\core\application\usecases\interfaces\ServiceRendezVousInterface;
 
 class AnnulerRdvAction {
     private ServiceRendezVousInterface $serviceRdv;
@@ -14,7 +13,7 @@ class AnnulerRdvAction {
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
         $id_prat = $args['id_prat'] ?? null;
@@ -36,7 +35,7 @@ class AnnulerRdvAction {
             if(empty($args['id_rdv'])) {
                 $message_complementaire = "l'id du rendez vous est vide";
             }
-            throw new Exception("Erreur lors de l'annulation du RDV. " . $message_complementaire);
+            throw new \Exception("Erreur lors de l'annulation du RDV. " . $message_complementaire);
         }
     }
 }

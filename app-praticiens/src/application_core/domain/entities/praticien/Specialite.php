@@ -1,6 +1,6 @@
 <?php
 
-namespace toubilib\core\domain\entities\praticien;
+namespace praticiens\core\domain\entities\praticien;
 
 
 

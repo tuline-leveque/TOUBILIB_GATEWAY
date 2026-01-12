@@ -1,12 +1,12 @@
 <?php
 
-namespace toubilib\api\actions;
+namespace praticiens\api\actions;
 
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use toubilib\core\application\usecases\interfaces\ServicePraticienInterface;
-use toubilib\core\exceptions\BadRequestException;
+use praticiens\core\application\usecases\interfaces\ServicePraticienInterface;
+use praticiens\core\exceptions\BadRequestException;
 
 class AjouterIndisponibiliteAction {
         public function __construct(

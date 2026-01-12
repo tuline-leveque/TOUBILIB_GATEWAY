@@ -1,13 +1,13 @@
 <?php
 
-namespace toubilib\infra\repositories;
+namespace praticiens\infra\repositories;
 
 use Exception;
 use PDO;
 use Slim\Exception\HttpInternalServerErrorException;
-use toubilib\core\domain\entities\praticien\Praticien;
-use toubilib\core\exceptions\EntityNotFoundException;
-use toubilib\infra\repositories\interface\PraticienRepositoryInterface;
+use praticiens\core\domain\entities\praticien\Praticien;
+use praticiens\core\exceptions\EntityNotFoundException;
+use praticiens\infra\repositories\interface\PraticienRepositoryInterface;
 
 class PDOPraticienRepository implements PraticienRepositoryInterface {
 

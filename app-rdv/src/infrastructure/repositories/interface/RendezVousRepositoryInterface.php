@@ -1,8 +1,8 @@
 <?php
 
-namespace toubilib\infra\repositories\interface;
+namespace rdvs\infra\repositories\interface;
 
-use toubilib\core\domain\entities\rdv\RendezVous;
+use rdvs\core\domain\entities\rdv\RendezVous;
 
 interface RendezVousRepositoryInterface {
     public function getCreneauxOccupes(int $role, string $debut, string $fin, string $id) : array;

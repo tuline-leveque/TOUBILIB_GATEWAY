@@ -3,7 +3,7 @@
 use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use Slim\Factory\AppFactory;
-use toubilib\api\middlewares\CorsMiddleware;
+use praticiens\api\middlewares\CorsMiddleware;
 
 $dotenv = Dotenv::createImmutable(__DIR__ );
 $dotenv->load();

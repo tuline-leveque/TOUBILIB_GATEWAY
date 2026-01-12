@@ -1,6 +1,6 @@
 <?php
 
-namespace toubilib\core\domain\entities\rdv;
+namespace rdvs\core\domain\entities\rdv;
 
 use Exception;
 

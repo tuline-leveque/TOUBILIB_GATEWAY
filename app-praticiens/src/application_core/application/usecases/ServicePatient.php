@@ -1,10 +1,10 @@
 <?php
 
-namespace toubilib\core\application\usecases;
-use toubilib\api\dtos\PatientDTO;
-use toubilib\core\application\usecases\interfaces\ServicePatientInterface;
-use toubilib\core\exceptions\EntityNotFoundException;
-use toubilib\infra\repositories\interface\PatientRepositoryInterface;
+namespace praticiens\core\application\usecases;
+use praticiens\api\dtos\PatientDTO;
+use praticiens\core\application\usecases\interfaces\ServicePatientInterface;
+use praticiens\core\exceptions\EntityNotFoundException;
+use praticiens\infra\repositories\interface\PatientRepositoryInterface;
 
 class ServicePatient implements ServicePatientInterface {
     private PatientRepositoryInterface $patientRepository;

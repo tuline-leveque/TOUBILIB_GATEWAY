@@ -1,10 +1,10 @@
 <?php
 
-namespace toubilib\core\application\usecases\interfaces;
+namespace rdvs\core\application\usecases\interfaces;
 
 
-use toubilib\api\dtos\InputRendezVousDTO;
-use toubilib\api\dtos\RendezVousDTO;
+use rdvs\api\dtos\InputRendezVousDTO;
+use rdvs\api\dtos\RendezVousDTO;
 
 interface ServiceRendezVousInterface {
     public function listerRDV(int $role, string $id, ?string $debut = null, ?string $fin = null): array;

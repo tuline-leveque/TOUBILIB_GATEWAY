@@ -1,6 +1,6 @@
 <?php
 
-namespace toubilib\api\dtos;
+namespace rdvs\api\dtos;
 
 class RendezVousDTO {
     public function __construct(

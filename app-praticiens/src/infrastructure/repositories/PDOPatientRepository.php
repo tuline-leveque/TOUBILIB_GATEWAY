@@ -1,14 +1,14 @@
 <?php
 
-namespace toubilib\infra\repositories;
+namespace praticiens\infra\repositories;
 
 use Exception;
 use Fig\Http\Message\StatusCodeInterface;
 use PDO;
 use Slim\Exception\HttpInternalServerErrorException;
-use toubilib\core\domain\entities\patient\Patient;
-use toubilib\core\exceptions\EntityNotFoundException;
-use toubilib\infra\repositories\interface\PatientRepositoryInterface;
+use praticiens\core\domain\entities\patient\Patient;
+use praticiens\core\exceptions\EntityNotFoundException;
+use praticiens\infra\repositories\interface\PatientRepositoryInterface;
 
 class PDOPatientRepository implements PatientRepositoryInterface {
 
