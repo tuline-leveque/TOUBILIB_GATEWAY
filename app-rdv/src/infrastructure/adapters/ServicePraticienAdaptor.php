@@ -1,29 +1,37 @@
 <?php
 
-namespace toubilib\core\application\usecases;
+namespace toubilib\infra\adapters;
+
 use Exception;
+use Psr\Http\Client\ClientInterface;
+use Slim\Exception\HttpNotFoundException;
 use toubilib\api\dtos\IndisponibiliteDTO;
 use toubilib\api\dtos\PraticienDTO;
 use toubilib\core\application\usecases\interfaces\ServicePraticienInterface;
 use toubilib\core\exceptions\EntityNotFoundException;
-use toubilib\infra\repositories\interface\PraticienRepositoryInterface;
 
-class ServicePraticien implements ServicePraticienInterface {
-    private PraticienRepositoryInterface $praticienRepository;
+use GuzzleHttp\Exception\ClientException;
 
-    public function __construct(PraticienRepositoryInterface $praticienRepository)
-    {
-        $this->praticienRepository = $praticienRepository;
-    }
+class ServicePraticienAdaptor implements ServicePraticienInterface {
 
     /**
      * @throws Exception
      */
+    private ClientInterface $remote_praticien_service;
+
+    public function __construct(ClientInterface $client) {
+        $this->remote_praticien_service = $client;
+    }
     public function listerPraticiens(?string $specialite = null, ?string $ville = null): array {
+        $path = 'praticiens';
+        $method = 'GET';
         try {
-            $praticiens = $this->praticienRepository->getPraticiens($specialite, $ville);
-        } catch (\Exception $e) {
-            throw new \Exception("Erreur lors de l'obtention des praticiens\n Message erreur PDO : " . $e->getMessage());
+            $praticiens = $this->remote_praticien_service->request(
+                $method,
+                $path
+            );
+        } catch (ClientException $e) {
+            throw new Exception();
         }
 
         $res = [];
