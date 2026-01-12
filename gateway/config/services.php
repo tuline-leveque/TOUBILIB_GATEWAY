@@ -3,8 +3,8 @@
 namespace gateway\config;
 
 
-use Psr\Container\ContainerInterface;
 use gateway\api\actions\GatewayPraticiensAction;
+use Psr\Container\ContainerInterface;
 use GuzzleHttp\Client;
 
 return [

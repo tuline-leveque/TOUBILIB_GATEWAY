@@ -30,26 +30,16 @@ return function( App $app): App {
     $app->get('/praticiens', PraticiensAction::class); // pas authz
 
     $app->get('/praticiens/{id_prat}', PraticienAction::class); // pas d'authz
-    $app->get("/praticiens/{id_prat}/rdvs", PraticienRdvAction::class)
-        ->add(AuthzAccessRdvsMiddleware::class)
-        ->add(JwtAuthMiddleware::class);
+    $app->get("/praticiens/{id_prat}/rdvs", PraticienRdvAction::class);
 
-    $app->get("/praticiens/{id_prat}/rdvs/{id_rdv}", RdvDetailsAction::class)
-        ->add(AuthzAccessRdvDetailMiddleware::class)
-        ->add(JwtAuthMiddleware::class);
-    $app->get("/patients/{id_pat}/rdvs", PatientRdvAction::class)
-        ->add(AuthzAccessRdvDetailMiddleware::class)
-        ->add(JwtAuthMiddleware::class);
+    $app->get("/praticiens/{id_prat}/rdvs/{id_rdv}", RdvDetailsAction::class);
+    $app->get("/patients/{id_pat}/rdvs", PatientRdvAction::class);
 
 //    POST
     $app->post("/praticiens/{id_prat}/rdvs", CreateRdvAction::class)
-        ->add(new CreerRendezVousValidationMiddleware())
-        ->add(AuthzCreationMiddleware::class)
-        ->add(JwtAuthMiddleware::class);
+        ->add(new CreerRendezVousValidationMiddleware());
 
-    $app->post("/praticiens/{id_prat}/indisponibilite", AjouterIndisponibiliteAction::class)
-        ->add(AuthzCreationIndisponibiliteMiddleware::class)
-        ->add(JwtAuthMiddleware::class);
+    $app->post("/praticiens/{id_prat}/indisponibilite", AjouterIndisponibiliteAction::class);
 
     // exemple /praticiens/4305f5e9-be5a-4ccf-8792-7e07d7017363/rdvs?duree=30&date_heure_debut=2025-10-07 15:00:00&date_heure_fin=2025-10-07 15:30:00&id_pat=d975aca7-50c5-3d16-b211-cf7d302cba50
     $app->post("/signin", SigninAction::class)
@@ -60,15 +50,11 @@ return function( App $app): App {
     $app->post("/refresh", RefreshAction::class);
 
 //    DELETE
-    $app->delete("/praticiens/{id_prat}/rdvs/{id_rdv}", AnnulerRdvAction::class)
-        ->add(AuthzSuppressionMiddleware::class)
-        ->add(JwtAuthMiddleware::class);
+    $app->delete("/praticiens/{id_prat}/rdvs/{id_rdv}", AnnulerRdvAction::class);
     // Status RDV -> 1 = Annuler
 
 //    PATCH
-    $app->patch("/praticiens/{id_prat}/rdvs/{id_rdv}", ValiderRdvAction::class)
-        ->add(AuthzSuppressionMiddleware::class)
-        ->add(JwtAuthMiddleware::class);
+    $app->patch("/praticiens/{id_prat}/rdvs/{id_rdv}", ValiderRdvAction::class);
     // Status RDV -> -1 = Non honorer
     // Status RDV ->  2 =  honorer
 
