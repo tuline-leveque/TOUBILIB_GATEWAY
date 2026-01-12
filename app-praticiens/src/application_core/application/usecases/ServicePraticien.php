@@ -1,12 +1,12 @@
 <?php
 
-namespace toubilib\core\application\usecases;
+namespace praticiens\core\application\usecases;
 use Exception;
-use toubilib\api\dtos\IndisponibiliteDTO;
-use toubilib\api\dtos\PraticienDTO;
-use toubilib\core\application\usecases\interfaces\ServicePraticienInterface;
-use toubilib\core\exceptions\EntityNotFoundException;
-use toubilib\infra\repositories\interface\PraticienRepositoryInterface;
+use praticiens\api\dtos\IndisponibiliteDTO;
+use praticiens\api\dtos\PraticienDTO;
+use praticiens\core\application\usecases\interfaces\ServicePraticienInterface;
+use praticiens\core\exceptions\EntityNotFoundException;
+use praticiens\infra\repositories\interface\PraticienRepositoryInterface;
 
 class ServicePraticien implements ServicePraticienInterface {
     private PraticienRepositoryInterface $praticienRepository;

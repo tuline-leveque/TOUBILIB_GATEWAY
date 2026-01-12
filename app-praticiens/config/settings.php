@@ -1,9 +1,6 @@
 <?php
 
 use Psr\Container\ContainerInterface;
-use toubilib\api\actions\PraticiensAction;
-use toubilib\infra\repositories\interface\PraticienRepositoryInterface;
-use toubilib\infra\repositories\PDOPraticienRepository;
 
 return [
     // settings

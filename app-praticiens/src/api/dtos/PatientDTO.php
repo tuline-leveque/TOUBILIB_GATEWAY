@@ -1,9 +1,6 @@
 <?php
 
-namespace toubilib\api\dtos;
-
-
-use Exception;
+namespace praticiens\api\dtos;
 
 class PatientDTO {
     public function __construct(

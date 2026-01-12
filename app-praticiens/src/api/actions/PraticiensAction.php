@@ -1,9 +1,9 @@
 <?php
 
-namespace toubilib\api\actions;
+namespace praticiens\api\actions;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use toubilib\core\application\usecases\interfaces\ServicePraticienInterface;
+use praticiens\core\application\usecases\interfaces\ServicePraticienInterface;
 
 class PraticiensAction {
     private ServicePraticienInterface $servicePraticien;

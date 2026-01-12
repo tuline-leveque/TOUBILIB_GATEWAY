@@ -1,8 +1,8 @@
 <?php
 
-namespace toubilib\infra\repositories\interface;
+namespace praticiens\infra\repositories\interface;
 
-use toubilib\core\domain\entities\patient\Patient;
+use praticiens\core\domain\entities\patient\Patient;
 
 interface PatientRepositoryInterface {
     public function getPatient(string $id) : Patient;

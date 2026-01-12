@@ -1,6 +1,6 @@
 <?php
 
-namespace toubilib\core\exceptions;
+namespace praticiens\core\exceptions;
 
 use Exception;
 

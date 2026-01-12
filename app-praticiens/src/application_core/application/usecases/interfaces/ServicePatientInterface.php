@@ -1,8 +1,8 @@
 <?php
 
-namespace toubilib\core\application\usecases\interfaces;
+namespace praticiens\core\application\usecases\interfaces;
 
-use toubilib\api\dtos\PatientDTO;
+use praticiens\api\dtos\PatientDTO;
 
 interface ServicePatientInterface {
     public function getPatient(string $id): PatientDTO;

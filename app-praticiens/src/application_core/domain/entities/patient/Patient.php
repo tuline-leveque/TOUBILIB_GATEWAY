@@ -1,6 +1,6 @@
 <?php
 
-namespace toubilib\core\domain\entities\patient;
+namespace praticiens\core\domain\entities\patient;
 
 use Exception;
 
