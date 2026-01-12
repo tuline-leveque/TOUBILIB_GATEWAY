@@ -1,17 +1,17 @@
 <?php
 
-namespace toubilib\core\application\usecases;
+namespace rdvs\core\application\usecases;
 
 use DateTime;
 use Exception;
-use toubilib\api\dtos\RendezVousDTO;
-use toubilib\core\application\usecases\interfaces\ServicePatientInterface;
-use toubilib\core\application\usecases\interfaces\ServicePraticienInterface;
-use toubilib\core\application\usecases\interfaces\ServiceRendezVousInterface;
-use toubilib\api\dtos\InputRendezVousDTO;
+use rdvs\api\dtos\RendezVousDTO;
+use praticiens\core\application\usecases\interfaces\ServicePatientInterface;
+use praticiens\core\application\usecases\interfaces\ServicePraticienInterface;
+use rdvs\core\application\usecases\interfaces\ServiceRendezVousInterface;
+use rdvs\api\dtos\InputRendezVousDTO;
 use toubilib\core\exceptions\CreneauException;
 use toubilib\core\exceptions\EntityNotFoundException;
-use toubilib\infra\repositories\interface\RendezVousRepositoryInterface;
+use rdvs\infra\repositories\interface\RendezVousRepositoryInterface;
 
 class ServiceRendezVous implements ServiceRendezVousInterface
 {

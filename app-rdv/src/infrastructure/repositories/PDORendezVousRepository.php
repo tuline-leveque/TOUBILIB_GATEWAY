@@ -1,18 +1,16 @@
 <?php
 
-namespace toubilib\infra\repositories;
+namespace rdvs\infra\repositories;
 
 
 use DateTime;
-use DI\NotFoundException;
-use Exception;
 use PDO;
 use Slim\Exception\HttpInternalServerErrorException;
-use toubilib\core\domain\entities\rdv\RendezVous;
-use toubilib\core\exceptions\CreneauException;
-use toubilib\core\exceptions\EntityNotFoundException;
-use toubilib\core\exceptions\InternalErrorException;
-use toubilib\infra\repositories\interface\RendezVousRepositoryInterface;
+use rdvs\core\domain\entities\rdv\RendezVous;
+use rdvs\core\exceptions\CreneauException;
+use rdvs\core\exceptions\EntityNotFoundException;
+use rdvs\core\exceptions\InternalErrorException;
+use rdvs\infra\repositories\interface\RendezVousRepositoryInterface;
 
 class PDORendezVousRepository implements RendezVousRepositoryInterface {
 
@@ -72,7 +70,7 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface {
 
     /**
      * @throws EntityNotFoundException
-     * @throws Exception
+     * @throws \Exception
      */
     public function getRDV(int $role, string $id, string $id_rdv): RendezVous {
         try {
@@ -89,9 +87,9 @@ class PDORendezVousRepository implements RendezVousRepositoryInterface {
             $rdv = $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (HttpInternalServerErrorException) {
             //500
-            throw new Exception("Erreur lors de l'execution de la requete SQL.");
+            throw new \Exception("Erreur lors de l'execution de la requete SQL.");
         } catch(\Throwable) {
-            throw new Exception("Erreur lors de la reception du rendez-vous.");
+            throw new \Exception("Erreur lors de la reception du rendez-vous.");
         }
 
         if (!$rdv) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace toubilib\api\middlewares;
+namespace rdvs\api\middlewares;
 
 use DateTime;
 use Psr\Http\Message\ResponseInterface;
@@ -11,7 +11,7 @@ use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator as v;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Routing\RouteContext;
-use toubilib\api\dtos\InputRendezVousDTO;
+use rdvs\api\dtos\InputRendezVousDTO;
 
 class CreerRendezVousValidationMiddleware {
     public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $next) : ResponseInterface {

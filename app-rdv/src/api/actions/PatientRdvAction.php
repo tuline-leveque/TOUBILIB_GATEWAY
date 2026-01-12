@@ -1,9 +1,9 @@
 <?php
 
-namespace toubilib\api\actions;
+namespace rdvs\api\actions;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use toubilib\core\application\usecases\interfaces\ServiceRendezVousInterface;
+use rdvs\core\application\usecases\interfaces\ServiceRendezVousInterface;
 
 class PatientRdvAction {
     private ServiceRendezVousInterface $serviceRdv;

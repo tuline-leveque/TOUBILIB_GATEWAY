@@ -1,6 +1,6 @@
 <?php
 
-namespace toubilib\api\middlewares;
+namespace rdvs\api\middlewares;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;

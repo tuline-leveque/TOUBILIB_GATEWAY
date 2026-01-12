@@ -1,11 +1,10 @@
 <?php
 
-namespace toubilib\api\actions;
+namespace rdvs\api\actions;
 
-use _PHPStan_2d0955352\Nette\Neon\Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use toubilib\core\application\usecases\interfaces\ServiceRendezVousInterface;
+use rdvs\core\application\usecases\interfaces\ServiceRendezVousInterface;
 
 class ValiderRdvAction
 {
@@ -16,7 +15,7 @@ class ValiderRdvAction
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
         $id_prat = $args['id_prat'] ?? null;
@@ -33,7 +32,7 @@ class ValiderRdvAction
                 ]));
             return $response->withHeader("Content-Type", "application/json");
         } catch (\Throwable $t) {
-            throw new Exception($t->getMessage());
+            throw new \Exception($t->getMessage());
         }
     }
 }
