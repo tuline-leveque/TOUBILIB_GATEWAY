@@ -22,3 +22,4 @@ composer.lock
 /app/vendor/
 /app/config/.env
 *.env
+/gateway/vendor/

@@ -61,8 +61,6 @@ services:
   toubiprati.db:
     image: 'postgres:latest'
     env_file: ./toubipratdb.env
-    ports:
-      - '5432:5432'
     networks:
       - toubilib.net
     volumes:
@@ -72,8 +70,6 @@ services:
   toubirdv.db:
     image: 'postgres:latest'
     env_file: ./toubirdvdb.env
-    ports:
-      - '5434:5432'
     networks:
       - toubilib.net
     volumes:
@@ -82,8 +78,6 @@ services:
   toubipatient.db:
     image: 'postgres:latest'
     env_file: ./toubipatient.env
-    ports:
-      - '5436:5432'
     networks:
       - toubilib.net
     volumes:
@@ -92,8 +86,6 @@ services:
   toubiauth.db:
     image: 'postgres:latest'
     env_file: ./toubiauthdb.env
-    ports:
-      - '5438:5432'
     networks:
       - toubilib.net
     volumes:
@@ -106,7 +98,7 @@ services:
   adminer:
     image: adminer
     ports:
-      - '8080:8080'
+      - '8181:8080'
     networks:
       - toubilib.net
 
