@@ -3,6 +3,7 @@
 namespace gateway\config;
 
 
+use gateway\api\actions\GatewayAuthAction;
 use gateway\api\actions\GatewayPraticiensAction;
 use gateway\api\actions\GatewayRendezVousAction;
 use Psr\Container\ContainerInterface;
@@ -25,4 +26,12 @@ return [
     GatewayRendezVousAction::class => function (ContainerInterface $c) {
         return new GatewayPraticiensAction($c->get('rdvs.guzzle.client'));
     },
+    'auth.guzzle.client' => function (ContainerInterface $c) {
+        return new Client([
+            'base_uri' => $c->get('api.gateway.toubilib'),
+        ]);
+    },
+    GatewayAuthAction::class => function (ContainerInterface $c) {
+        return new GatewayAuthAction($c->get('auth.guzzle.client'));
+    }
 ];
