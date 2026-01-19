@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use rdvs\api\actions\RdvDetailsAction;
 use rdvs\api\middlewares\CreerRendezVousValidationMiddleware;
 use Slim\App;
 use rdvs\api\actions\AnnulerRdvAction;
