@@ -28,6 +28,14 @@ return [
     ServiceRendezVousInterface::class => function (ContainerInterface $c) {
         return new ServiceRendezVous($c->get(RendezVousRepositoryInterface::class), $c->get(ServicePraticienInterface::class), $c->get(ServicePatientInterface::class));
     },
+
+    // TODO : DELETE IT
+    \rdvs\infra\repositories\interface\PatientRepositoryInterface::class => function (ContainerInterface $c) {
+        return new \rdvs\infra\repositories\PDOPatientRepository($c->get("pat.pdo"));
+    },
+
+    \rdvs\core\application\usecases\interfaces\ServicePatientInterface::class => function (ContainerInterface $c) {
+        return new \rdvs\core\application\usecases\ServicePatient($c->get(\rdvs\infra\repositories\interface\PatientRepositoryInterface::class));
     }
 ];
 
