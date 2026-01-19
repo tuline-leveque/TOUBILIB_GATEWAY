@@ -5,12 +5,12 @@ namespace rdvs\core\application\usecases;
 use DateTime;
 use Exception;
 use rdvs\api\dtos\RendezVousDTO;
-use praticiens\core\application\usecases\interfaces\ServicePatientInterface;
-use praticiens\core\application\usecases\interfaces\ServicePraticienInterface;
+use rdvs\core\application\usecases\interfaces\ServicePatientInterface;
+use rdvs\core\application\usecases\interfaces\ServicePraticienInterface;
 use rdvs\core\application\usecases\interfaces\ServiceRendezVousInterface;
 use rdvs\api\dtos\InputRendezVousDTO;
-use toubilib\core\exceptions\CreneauException;
-use toubilib\core\exceptions\EntityNotFoundException;
+use rdvs\core\exceptions\CreneauException;
+use rdvs\core\exceptions\EntityNotFoundException;
 use rdvs\infra\repositories\interface\RendezVousRepositoryInterface;
 
 class ServiceRendezVous implements ServiceRendezVousInterface
@@ -69,7 +69,7 @@ class ServiceRendezVous implements ServiceRendezVousInterface
      */
     public function getRDV(string $id_prat, string $id_rdv): RendezVousDTO {
         try {
-            $rdv = $this->rendezVousRepository->getRDV($id_prat, $id_rdv);
+            $rdv = $this->rendezVousRepository->getRDV(0, $id_prat, $id_rdv);
             return new RendezVousDTO(
                 id: $rdv->id,
                 praticien_id: $rdv->praticien_id,
@@ -134,6 +134,8 @@ class ServiceRendezVous implements ServiceRendezVousInterface
 
         $indisponibilites = $this->servicePraticien->getIndisponibilite($dto->praticien_id);
         foreach ($indisponibilites as $indisponibilite) {
+            $indisponibilite->date_debut = DateTime::createFromFormat('Y-m-d H:i:s', $indisponibilite->date_debut);
+            $indisponibilite->date_fin = DateTime::createFromFormat('Y-m-d H:i:s', $indisponibilite->date_fin);
             if (
                 $date_heure_debut >= $indisponibilite->date_debut ||
                 $date_heure_debut <= $indisponibilite->date_fin ||
