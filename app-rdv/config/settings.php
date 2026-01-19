@@ -6,6 +6,7 @@ use toubilib\infra\repositories\interface\PraticienRepositoryInterface;
 use toubilib\infra\repositories\PDOPraticienRepository;
 
 return [
+    'api.praticiens' => 'http://api.praticiens/',
     // settings
     'displayErrorDetails' => true,
     'logs.dir' => __DIR__ . '/../var/logs',

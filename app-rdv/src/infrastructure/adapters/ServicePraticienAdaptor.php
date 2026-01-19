@@ -1,14 +1,11 @@
 <?php
 
-namespace toubilib\infra\adapters;
+namespace rdvs\infra\adapters;
 
 use Exception;
 use Psr\Http\Client\ClientInterface;
-use Slim\Exception\HttpNotFoundException;
-use toubilib\api\dtos\IndisponibiliteDTO;
-use toubilib\api\dtos\PraticienDTO;
-use toubilib\core\application\usecases\interfaces\ServicePraticienInterface;
-use toubilib\core\exceptions\EntityNotFoundException;
+use rdvs\api\dtos\PraticienDTO;
+use rdvs\core\application\usecases\interfaces\ServicePraticienInterface;
 
 use GuzzleHttp\Exception\ClientException;
 
@@ -26,7 +23,7 @@ class ServicePraticienAdaptor implements ServicePraticienInterface {
         $path = 'praticiens';
         $method = 'GET';
         try {
-            $praticiens = $this->remote_praticien_service->request(
+            $response = $this->remote_praticien_service->request(
                 $method,
                 $path
             );
@@ -34,64 +31,60 @@ class ServicePraticienAdaptor implements ServicePraticienInterface {
             throw new Exception();
         }
 
-        $res = [];
-        foreach ($praticiens as $praticien) {
-            $res[] = new PraticienDTO(
-                id: $praticien->id,
-                nom: $praticien->nom,
-                prenom: $praticien->prenom,
-                ville: $praticien->ville,
-                email: $praticien->email,
-                telephone: $praticien->telephone,
-                specialite: $praticien->specialite
-            );
-        }
-        return $res;
+        return $response->getBody()->getContents();
     }
 
     /**
      * @throws \Exception
      */
-    public function getPraticien(string $id): PraticienDTO {
+    public function getPraticien(string $id) {
+        $path = 'praticiens/'.$id;
+        $method = 'GET';
         try {
-            $praticien = $this->praticienRepository->getPraticien($id);
-        } catch (EntityNotFoundException $e) {
-            throw new EntityNotFoundException($e->getMessage(), $e->getEntity());
-        } catch (\Exception $e) {
-            throw new \Exception("probleme lors de la reception du praticien.", $e->getCode());
+            $response = $this->remote_praticien_service->request(
+                $method,
+                $path
+            );
+        } catch (ClientException $e) {
+            throw new Exception();
         }
-        return new PraticienDTO(
-            id: $praticien->id,
-            nom: $praticien->nom,
-            prenom: $praticien->prenom,
-            ville: $praticien->ville,
-            email: $praticien->email,
-            telephone: $praticien->telephone,
-            specialite: $praticien->specialite,
-            moyens_paiement: $praticien->moyens_paiement,
-            motifs_visite: $praticien->motifs_visite,
-        );
+
+        return json_decode($response->getBody()->getContents());
     }
 
     public function addIndisponibilite(string $id_prat, string $date_debut, string $date_fin) {
+        $path = 'praticiens/'.$id_prat.'/indisponibilites';
+        $method = 'GET';
         try {
-            $this->praticienRepository->addIndisponibilite($id_prat, $date_debut, $date_fin);
-        } catch (\Throwable $th) {
-            throw $th;
+            $response = $this->remote_praticien_service->request(
+                $method,
+                $path,
+                [
+                    'json' => [
+                        'date_debut' => $date_debut,
+                        'date_fin' => $date_fin,
+                    ]
+                ]
+            );
+        } catch (ClientException $e) {
+            throw new Exception("Erreur lors de l'execution de la requete, message : " . $e->getMessage() );
         }
+
+        if($response->getStatusCode() === 200) { return true; } else { return false; }
     }
 
     public function getIndisponibilite(string $id_prat) : array {
+        $path = 'praticiens/'.$id_prat.'/indisponibilites';
+        $method = 'GET';
         try {
-            $indisponibilites = $this->praticienRepository->getIndisponibilite($id_prat);
-            $res = [];
-
-            foreach ($indisponibilites as $indisponibilite) {
-                $res[] = new IndisponibiliteDTO($indisponibilite["date_heure_debut"], $indisponibilite["date_heure_fin"]);
-            }
-            return $res;
-        } catch (\Throwable $th) {
-            throw $th;
+            $response = $this->remote_praticien_service->request(
+                $method,
+                $path
+            );
+        } catch (ClientException $e) {
+            throw new Exception();
         }
+
+        return json_decode($response->getBody()->getContents());
     }
 }
