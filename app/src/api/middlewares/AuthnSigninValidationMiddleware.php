@@ -21,10 +21,10 @@ class AuthnSigninValidationMiddleware {
         if (!is_array($data)) {
             $data = [];
         }
-
+//        var_dump($request->getHeaders());
+//        die;
         $data["email"] = $data["email"] ?? "";
         $data["password"] = $data["password"] ?? "";
-
         // 3. On valide
         try {
             v::key('email', v::stringType()->notEmpty()->email())

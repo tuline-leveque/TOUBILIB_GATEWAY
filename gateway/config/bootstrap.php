@@ -1,6 +1,7 @@
 <?php
 
 use DI\ContainerBuilder;
+use gateway\api\middleware\CorsMiddleware;
 use Slim\Factory\AppFactory;
 
 
@@ -14,6 +15,8 @@ $c = $builder->build();
 $app = AppFactory::createFromContainer($c);
 
 $app = (require_once __DIR__ . '/../src/api/routes.php')($app);
+
+$app->add(new CorsMiddleware());
 
 
 return $app;

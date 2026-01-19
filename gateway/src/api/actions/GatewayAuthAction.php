@@ -2,49 +2,63 @@
 
 namespace gateway\api\actions;
 
-use Exception;
+use Cassandra\Exception\UnauthorizedException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpInternalServerErrorException;
 use Slim\Exception\HttpNotFoundException;
 use toubilib\core\exceptions\ConnexionException;
 
-class GatewayRendezVousAction {
-    private ClientInterface $remote_rendezVous_service;
+class GatewayAuthAction {
+    private ClientInterface $remote_auth_service;
 
     public function __construct(ClientInterface $client) {
-        $this->remote_rendezVous_service = $client;
+        $this->remote_auth_service = $client;
     }
 
     /**
      * @throws \Exception
      */
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args
-    ): ResponseInterface {
-
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
         $path = ltrim($request->getUri()->getPath(), '/');
 
         try {
-            $apiResponse = $this->remote_rendezVous_service->request(
+            $body = $request->getBody()->getContents();
+            $options = $request->getHeaders();
+            $headers = [];
+            if ($request->hasHeader('Content-Type')) {
+                $headers['Content-Type'] = $request->getHeaderLine('Content-Type');
+            }
+            if ($request->hasHeader('Authorization')) {
+                $headers['Authorization'] = $request->getHeaderLine('Authorization');
+            }
+
+            if (!empty($headers)) {
+                $options['headers'] = $headers;
+            }
+
+            if (in_array($request->getMethod(), ['POST', 'PUT', 'PATCH']) && !empty($body)) {
+                $options['body'] = $body;
+            }
+
+            $guzzleResponse = $this->remote_auth_service->request(
                 $request->getMethod(),
-                $path
+                $path,
+                $options
             );
 
-            $response->getBody()->write(
-                $apiResponse->getBody()->getContents()
-            );
+            $response->getBody()->write($guzzleResponse->getBody()->getContents());
+            $response = $response->withStatus($guzzleResponse->getStatusCode());
 
-            foreach ($apiResponse->getHeaders() as $name => $values) {
+            foreach ($guzzleResponse->getHeaders() as $name => $values) {
                 $response = $response->withHeader($name, $values);
             }
 
-            return $response->withStatus($apiResponse->getStatusCode());
+            return $response;
 
         } catch (ClientException | ServerException $e) {
             $response->getBody()->write(
@@ -75,5 +89,4 @@ class GatewayRendezVousAction {
                 ->withStatus(500);
         }
     }
-
 }

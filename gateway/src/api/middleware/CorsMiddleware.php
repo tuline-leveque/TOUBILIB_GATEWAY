@@ -1,6 +1,6 @@
 <?php
 
-namespace praticiens\api\middlewares;
+namespace gateway\api\middleware;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -12,12 +12,11 @@ class CorsMiddleware {
         if (! $request->hasHeader('Origin'))
             New HttpUnauthorizedException ($request, "missing Origin Header (cors)");
         $response = $next->handle($request);
-        $response = $response
+        return $response
             ->withHeader('Access-Control-Allow-Origin', 'http://myapp.net')
             ->withHeader('Access-Control-Allow-Methods', 'POST, PUT, GET' )
             ->withHeader('Access-Control-Allow-Headers','Authorization' )
             ->withHeader('Access-Control-Max-Age', 3600)
             ->withHeader('Access-Control-Allow-Credentials', 'true');
-        return $response;
     }
 }
