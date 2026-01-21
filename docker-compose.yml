@@ -7,8 +7,7 @@ services:
   #
   api.toubilib:
     build:
-      context: build
-      dockerfile: 8.4-cli.Dockerfile
+      context: docker/php8.4-cli
     ports:
       - '6080:80'
     volumes:
@@ -24,8 +23,7 @@ services:
 
   api.praticiens:
     build:
-      context: build
-      dockerfile: 8.4-cli.Dockerfile
+      context: docker/php8.4-cli
     ports:
       - '6081:80'
     volumes:
@@ -41,8 +39,7 @@ services:
 
   api.rdvs:
     build:
-      context: build
-      dockerfile: 8.4-cli.Dockerfile
+      context: docker/php8.4-cli
     ports:
       - '6082:80'
     volumes:
@@ -56,7 +53,6 @@ services:
     command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
 
 
-
     # service toubiprat.db : base de données postgresql pour les praticiens
   toubiprati.db:
     image: 'postgres:latest'
@@ -65,6 +61,7 @@ services:
       - toubilib.net
     volumes:
       - ./sql/toubiprat:/docker-entrypoint-initdb.d
+
 
 
   toubirdv.db:
@@ -104,8 +101,7 @@ services:
 
   gateway:
     build:
-      context: build
-      dockerfile: 8.4-cli.Dockerfile
+      context: docker/php8.4-cli
     ports:
       - '7080:80'
     volumes:
