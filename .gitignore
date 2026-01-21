@@ -19,7 +19,7 @@ cache.properties
 # Composer
 composer.phar
 composer.lock
-/app/vendor/
 /app/config/.env
 *.env
 /gateway/vendor/
+/app-auth/vendor/
