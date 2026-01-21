@@ -112,3 +112,40 @@ services:
     depends_on:
       - api.toubilib
     command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
+
+  #######################################
+  ### RabbitMQ Service
+  ###
+  #######################################
+  rabbitmq:
+    image: rabbitmq:4-management
+    ports:
+      - '15672:15672'
+      #      - '15674:15674'
+      - '5672:5672'
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 8s
+      timeout: 30s
+      retries: 3
+    networks:
+      - toubilib.net
+    volumes:
+      - ./rabbitmq.toubi:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER:user
+      - RABBITMQ_DEFAULT_PASS:pass
+
+  # Ajouter dans les services qui utilisent le serveur rabbitmq :
+  #      depends_on:
+  #        rabbitmq:
+  #           condition: service_healthy
+
+  ###  MailCatcher
+  mail.toubi:
+    build:
+      context: docker/mailer
+    networks:
+      - toubilib.net
+    ports:
+      - '1080:1080'
