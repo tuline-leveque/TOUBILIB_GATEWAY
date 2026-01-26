@@ -25,9 +25,22 @@ class GatewayPraticiensAction {
         $path = ltrim($request->getUri()->getPath(), '/');
 
         try {
+            $body = json_decode($request->getBody()->getContents());
+            $date_debut = $body->date_debut ?? null;
+            $date_fin = $body->date_fin ?? null;
+            $options = [];
+            if($date_debut && $date_fin){
+                $options = [
+                    "json" => [
+                        "date_debut" => $date_debut,
+                        "date_fin" => $date_fin,
+                    ]
+                ];
+            }
             $apiResponse = $this->remote_praticien_service->request(
                 $request->getMethod(),
-                $path
+                $path,
+                $options
             );
 
             $response->getBody()->write(

@@ -7,8 +7,7 @@ services:
   #
   api.toubilib:
     build:
-      context: build
-      dockerfile: 8.4-cli.Dockerfile
+      context: docker/php8.4-cli
     ports:
       - '6080:80'
     volumes:
@@ -24,8 +23,7 @@ services:
 
   api.praticiens:
     build:
-      context: build
-      dockerfile: 8.4-cli.Dockerfile
+      context: docker/php8.4-cli
     ports:
       - '6081:80'
     volumes:
@@ -41,8 +39,7 @@ services:
 
   api.rdvs:
     build:
-      context: build
-      dockerfile: 8.4-cli.Dockerfile
+      context: docker/php8.4-cli
     ports:
       - '6082:80'
     volumes:
@@ -58,8 +55,7 @@ services:
 
   api.auth:
     build:
-      context: build
-      dockerfile: 8.4-cli.Dockerfile
+      context: docker/php8.4-cli
     ports:
       - '6083:80'
     volumes:
@@ -82,7 +78,6 @@ services:
       - toubilib.net
     volumes:
       - ./sql/toubiprat:/docker-entrypoint-initdb.d
-
 
   toubirdv.db:
     image: 'postgres:latest'
@@ -121,8 +116,7 @@ services:
 
   gateway:
     build:
-      context: build
-      dockerfile: 8.4-cli.Dockerfile
+      context: docker/php8.4-cli
     ports:
       - '7080:80'
     volumes:
