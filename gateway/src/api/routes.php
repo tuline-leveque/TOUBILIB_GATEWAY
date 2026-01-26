@@ -10,14 +10,16 @@ use Slim\App;
 return function( App $app): App {
 //    GET
     // PRATICIENS
-    $app->get('/praticiens', GatewayPraticiensAction::class)
+    $app->get('/praticiens', GatewayPraticiensAction::class);
+    $app->get('/praticiens/{id_prat}', GatewayPraticiensAction::class)
         ->add(ValidationTokenMiddleware::class);
-    $app->get('/praticiens/{id}', GatewayPraticiensAction::class);
 
     // RDV
-    $app->get('/praticiens/{id}/rdvs', GatewayRendezVousAction::class);
-    $app->get('/patients/{id}/rdvs', GatewayRendezVousAction::class);
-    $app->get('/praticiens/{id}/rdvs/{id_rdv}', GatewayRendezVousAction::class);
+    $app->get('/praticiens/{id_prat}/rdvs', GatewayRendezVousAction::class)
+        ->add(ValidationTokenMiddleware::class);
+    $app->get('/patients/{id_pat}/rdvs', GatewayRendezVousAction::class)
+        ->add(ValidationTokenMiddleware::class);
+    $app->get('/praticiens/{id_prat}/rdvs/{id_rdv}', GatewayRendezVousAction::class);
 
 //    POST
     // AUTH
@@ -26,17 +28,21 @@ return function( App $app): App {
     $app->post('/refresh', GatewayAuthAction::class);
 
     // PRATICIENS
-    $app->post("/praticiens/{id_prat}/indisponibilites", GatewayPraticiensAction::class);
+    $app->post("/praticiens/{id_prat}/indisponibilites", GatewayPraticiensAction::class)
+        ->add(ValidationTokenMiddleware::class);
 
     // RDV
-    $app->post('/praticiens/{id}/rdvs', GatewayRendezVousAction::class);
+    $app->post('/praticiens/{id_prat}/rdvs', GatewayRendezVousAction::class)
+        ->add(ValidationTokenMiddleware::class);
 
 //    DELETE
     // RDV
-    $app->delete('/praticiens/{id}/rdvs/{id_rdv}', GatewayRendezVousAction::class);
+    $app->delete('/praticiens/{id_prat}/rdvs/{id_rdv}', GatewayRendezVousAction::class)
+        ->add(ValidationTokenMiddleware::class);
 
 //    PATCH
     // RDV
-    $app->patch('/praticiens/{id}/rdvs/{id_rdv}', GatewayRendezVousAction::class);
+    $app->patch('/praticiens/{id_prat}/rdvs/{id_rdv}', GatewayRendezVousAction::class)
+        ->add(ValidationTokenMiddleware::class);
     return $app;
 };

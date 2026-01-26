@@ -25,7 +25,7 @@ return [
         ]);
     },
     GatewayRendezVousAction::class => function (ContainerInterface $c) {
-        return new GatewayPraticiensAction($c->get('rdvs.guzzle.client'));
+        return new GatewayRendezVousAction($c->get('rdvs.guzzle.client'));
     },
     'auth.guzzle.client' => function (ContainerInterface $c) {
         return new Client([

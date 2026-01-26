@@ -9,7 +9,6 @@ use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Exception\HttpNotFoundException;
 use toubilib\core\exceptions\ConnexionException;
 
 class GatewayRendezVousAction {
@@ -22,18 +21,22 @@ class GatewayRendezVousAction {
     /**
      * @throws \Exception
      */
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args
-    ): ResponseInterface {
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 
         $path = ltrim($request->getUri()->getPath(), '/');
+
+        $headers = [];
+        foreach ($request->getHeaders() as $name => $values) {
+            $headers[$name] = implode(', ', $values);
+        }
 
         try {
             $apiResponse = $this->remote_rendezVous_service->request(
                 $request->getMethod(),
-                $path
+                $path,
+                [
+                    'headers' => $headers
+                ]
             );
 
             $response->getBody()->write(
@@ -75,5 +78,4 @@ class GatewayRendezVousAction {
                 ->withStatus(500);
         }
     }
-
 }

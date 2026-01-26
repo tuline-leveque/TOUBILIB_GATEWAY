@@ -20,18 +20,23 @@ class ValidationTokenMiddleware
         $this->serviceAuthn = $client;
     }
 
-    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
         $authHeader = $request->getHeaderLine('Authorization');
+
         if (!$authHeader) {
             throw new HttpUnauthorizedException($request, "Missing Authorization header");
         }
+
         if (!preg_match('/^Bearer\s+(.+)$/', $authHeader, $matches)) {
             throw new HttpUnauthorizedException($request, "Invalid Authorization format");
         }
 
         $token = $matches[1];
+
         try {
-            $response = $this->serviceAuthn->request(
+            // Validation du token auprès du microservice auth
+            $this->serviceAuthn->request(
                 'POST',
                 '/tokens/validate',
                 [
@@ -41,10 +46,7 @@ class ValidationTokenMiddleware
 
         } catch (ClientException $e) {
             if ($e->getCode() === 401) {
-                throw new HttpUnauthorizedException(
-                    $request,
-                    "Unauthorized ({$e->getMessage()})"
-                );
+                throw new HttpUnauthorizedException($request, "Unauthorized ({$e->getMessage()})");
             }
             throw $e;
 
@@ -52,6 +54,7 @@ class ValidationTokenMiddleware
             throw new \RuntimeException("Auth service unavailable", 503, $e);
         }
 
+        // Si OK -> on continue vers le microservice (RDV) avec le header Authorization intact
         return $handler->handle($request);
     }
 }
