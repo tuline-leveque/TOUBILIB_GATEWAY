@@ -51,7 +51,7 @@ class AuthzAccessRdvDetailMiddleware {
             throw new HttpInternalServerErrorException($request, 'Paramètres de route manquants (id_prat, id_rdv)');
         }
 
-        // 4. Ta logique de vérification (qui est parfaite)
+        //4. Vérification
         switch($role) {
             case User::PATIENT :
                 $rdv = $this->service_rendez_vous->getRDV($id_prat, $id_rdv);

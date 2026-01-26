@@ -6,6 +6,7 @@ namespace gateway\config;
 use gateway\api\actions\GatewayAuthAction;
 use gateway\api\actions\GatewayPraticiensAction;
 use gateway\api\actions\GatewayRendezVousAction;
+use gateway\api\middlewares\ValidationTokenMiddleware;
 use Psr\Container\ContainerInterface;
 use GuzzleHttp\Client;
 
@@ -33,5 +34,8 @@ return [
     },
     GatewayAuthAction::class => function (ContainerInterface $c) {
         return new GatewayAuthAction($c->get('auth.guzzle.client'));
+    },
+    ValidationTokenMiddleware::class => function (ContainerInterface $c) {
+        return new ValidationTokenMiddleware($c->get('auth.guzzle.client'));
     }
 ];
