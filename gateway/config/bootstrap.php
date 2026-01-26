@@ -1,7 +1,7 @@
 <?php
 
 use DI\ContainerBuilder;
-use gateway\api\middleware\CorsMiddleware;
+use gateway\api\middlewares\CorsMiddleware;
 use Slim\Factory\AppFactory;
 
 

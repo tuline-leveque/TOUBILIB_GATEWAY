@@ -14,6 +14,7 @@ use auth\core\application\usecases\interfaces\ServiceAuthnInterface;
 use auth\core\application\usecases\interfaces\ServiceAuthzPatientInterface;
 use auth\core\application\usecases\interfaces\ServiceAuthzPraticienInterface;
 use Psr\Container\ContainerInterface;
+use toubilib\core\application\usecases\interfaces\ServiceRendezVousInterface;
 
 return [
     // application

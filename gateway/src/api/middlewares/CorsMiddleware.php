@@ -1,6 +1,6 @@
 <?php
 
-namespace gateway\api\middleware;
+namespace gateway\api\middlewares;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
