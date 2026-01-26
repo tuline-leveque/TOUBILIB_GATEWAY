@@ -27,13 +27,15 @@ class GatewayRendezVousAction {
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-
         $path = ltrim($request->getUri()->getPath(), '/');
-
+        $queryParams = $request->getUri()->getQuery();
         try {
             $apiResponse = $this->remote_rendezVous_service->request(
                 $request->getMethod(),
-                $path
+                $path,
+                [
+                    'query' => $queryParams,
+                ]
             );
 
             $response->getBody()->write(
