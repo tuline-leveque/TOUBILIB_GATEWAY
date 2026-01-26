@@ -27,5 +27,8 @@
       "rdvs\\core\\" : "./src/application_core",
       "rdvs\\infra\\" : "./src/infrastructure"
     }
+  },
+  "scripts": {
+    "mail-test" : "php tools/send-mail.php"
   }
 }
