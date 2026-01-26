@@ -135,10 +135,10 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         $indisponibilites = $this->servicePraticien->getIndisponibilite($dto->praticien_id);
         foreach ($indisponibilites as $indisponibilite) {
             if (
-                $date_heure_debut >= $indisponibilite->date_debut ||
-                $date_heure_debut <= $indisponibilite->date_fin ||
-                $date_heure_fin >= $indisponibilite->date_debut ||
-                $date_heure_fin <= $indisponibilite->date_fin
+                ($date_heure_debut >= $indisponibilite->date_debut &&
+                $date_heure_debut <= $indisponibilite->date_fin) ||
+                ($date_heure_fin >= $indisponibilite->date_debut &&
+                $date_heure_fin <= $indisponibilite->date_fin)
             ) {
                 throw new CreneauException("Le praticien est indisponible durant cette periode");
             }
@@ -176,7 +176,6 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         return [
             'success' => true,
             "message" => "RDV cree.",
-            "indisponibilites" => $dto->praticien_id,
         ];
 
     }

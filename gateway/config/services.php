@@ -28,7 +28,7 @@ return [
     },
     'auth.guzzle.client' => function (ContainerInterface $c) {
         return new Client([
-            'base_uri' => $c->get('api.gateway.toubilib'),
+            'base_uri' => $c->get('api.gateway.auth'),
         ]);
     },
     GatewayAuthAction::class => function (ContainerInterface $c) {

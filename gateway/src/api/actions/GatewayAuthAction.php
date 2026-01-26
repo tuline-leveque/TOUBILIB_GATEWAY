@@ -2,16 +2,13 @@
 
 namespace gateway\api\actions;
 
-use Cassandra\Exception\UnauthorizedException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Exception\HttpInternalServerErrorException;
-use Slim\Exception\HttpNotFoundException;
-use toubilib\core\exceptions\ConnexionException;
+use auth\core\exceptions\ConnexionException;
 
 class GatewayAuthAction {
     private ClientInterface $remote_auth_service;
