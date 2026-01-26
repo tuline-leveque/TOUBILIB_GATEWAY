@@ -4,7 +4,7 @@
 
 ## ACCEDER AU PROJET :
 ### 1 - Lancer la commande docker "docker compose up"
-### 2 - Aller sur le lien "127.0.0.1:6080" (en Local) pour acceder à l'api (les differentes routes y sont renseignees)
+### 2 - Aller sur le lien "127.0.0.1:7080" (en Local) pour acceder à l'api (les differentes routes y sont renseignees)
 ### 3 - Acceder a la BDD grace au port "8080"
 
 ## Liste des routes existantes :
@@ -26,3 +26,12 @@
 
 ## DELETE
 #### /praticiens/{id_prat}/rdvs/{id_rdv} => annuler un rendez-vous
+
+
+# Mailer :
+## Test : 
+Vous pouvez tester le mailer avec la commande 
+```bash
+docker compose run --rm api.rdvs composer mail-test
+```
+Le detail de la commande mail-test est disponible dans la section "scripts" du fichier `api-rdv/composer.json`
