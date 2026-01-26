@@ -5,12 +5,14 @@ namespace rdvs\core\application\usecases;
 use DateTime;
 use Exception;
 use rdvs\api\dtos\RendezVousDTO;
+use rdvs\core\application\usecases\interfaces\ServiceMailerInterface;
 use rdvs\core\application\usecases\interfaces\ServicePatientInterface;
 use rdvs\core\application\usecases\interfaces\ServicePraticienInterface;
 use rdvs\core\application\usecases\interfaces\ServiceRendezVousInterface;
 use rdvs\api\dtos\InputRendezVousDTO;
 use rdvs\core\exceptions\CreneauException;
 use rdvs\core\exceptions\EntityNotFoundException;
+use rdvs\core\exceptions\MailException;
 use rdvs\infra\repositories\interface\RendezVousRepositoryInterface;
 
 class ServiceRendezVous implements ServiceRendezVousInterface
@@ -18,12 +20,14 @@ class ServiceRendezVous implements ServiceRendezVousInterface
     private RendezVousRepositoryInterface $rendezVousRepository;
     private ServicePraticienInterface $servicePraticien;
     private ServicePatientInterface $servicePatient;
+    private ServiceMailerInterface $mailer;
 
-    public function __construct(RendezVousRepositoryInterface $rendezVousRepository, ServicePraticienInterface $servicePraticien, ServicePatientInterface $servicePatient)
+    public function __construct(RendezVousRepositoryInterface $rendezVousRepository, ServicePraticienInterface $servicePraticien, ServicePatientInterface $servicePatient, ServiceMailerInterface $mailer)
     {
         $this->rendezVousRepository = $rendezVousRepository;
         $this->servicePraticien = $servicePraticien;
         $this->servicePatient = $servicePatient;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -95,7 +99,7 @@ class ServiceRendezVous implements ServiceRendezVousInterface
      */
     public function creerRendezVous(InputRendezVousDTO $dto): array {
         try {
-            $this->servicePatient->getPatient($dto->patient_id);
+            $patient = $this->servicePatient->getPatient($dto->patient_id);
             $prat = $this->servicePraticien->getPraticien($dto->praticien_id);
         } catch (EntityNotFoundException $e) {
             throw new EntityNotFoundException($e->getEntity()." introuvable", $e->getEntity());
@@ -175,6 +179,19 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         } catch (\Exception $e) {
             throw new Exception("Erreur lors de la creation d'un rdv");
         }
+
+        try {
+            $dateRdv = $date_heure_debut->format('d/m/Y à H:i');
+
+            $message_patient = "Confirmation de votre rendez-vous le $dateRdv avec le Dr. {$prat->nom}.";
+            $this->mailer->send($message_patient, $patient->email, "patient", "CREATE");
+
+            $message_prat = "Nouveau rendez-vous programmé le $dateRdv avec le patient {$patient->nom} {$patient->prenom}.";
+            $this->mailer->send($message_prat, $prat->email, "praticien", "CREATE");
+        } catch (Exception $e) {
+            throw new MailException("Erreur lors de l'envoi de l'email de confirmation : " . $e->getMessage(), 503);
+        }
+
         return [
             'success' => true,
             "message" => "RDV cree.",
@@ -190,13 +207,28 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         try {
             $rdv = $this->rendezVousRepository->getRDV(0, $id_prat, $id_rdv);
             $rdv->annuler();
-            return [
-                "success" => true,
-                "message" => "Le rendez-vous a bien ete annule."
-            ];
         } catch (\Throwable $th) {
             throw new Exception("Erreur ".$th->getCode().": probleme lors de l'annulation du rendez-vous.");
         }
+
+        try {
+            $dateRdv = DateTime::createFromFormat('d/m/Y à H:i', $rdv->date_heure_debut);
+            $patient = $this->servicePatient->getPatient($rdv->patient_id);
+            $prat = $this->servicePraticien->getPraticien($rdv->praticien_id);
+
+            $message_patient = "Votre rendez-vous du $dateRdv avec le Dr. {$prat->nom} est annulé.";
+            $this->mailer->send($message_patient, $patient->email, "patient", "CREATE");
+
+            $message_prat = "Rendez-vous du  $dateRdv avec le patient {$patient->nom} {$patient->prenom} annulé.";
+            $this->mailer->send($message_prat, $prat->email, "praticien", "CREATE");
+        } catch (Exception $e) {
+            throw new MailException("Erreur lors de l'envoi de l'email de confirmation : " . $e->getMessage(), 503);
+        }
+
+        return [
+            "success" => true,
+            "message" => "Le rendez-vous a bien ete annule."
+        ];
     }
 
     public function honorerRDV(string $id_prat, string $id_rdv, bool $statut) {
