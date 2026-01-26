@@ -2,9 +2,11 @@
 
 use GuzzleHttp\Client;
 use Psr\Container\ContainerInterface;
+use rdvs\core\application\usecases\interfaces\ServiceMailerInterface;
 use rdvs\core\application\usecases\interfaces\ServicePatientInterface;
 use rdvs\core\application\usecases\interfaces\ServicePraticienInterface;
 use rdvs\core\application\usecases\interfaces\ServiceRendezVousInterface;
+use rdvs\core\application\usecases\ServiceMailer;
 use rdvs\core\application\usecases\ServiceRendezVous;
 use rdvs\infra\adapters\ServicePraticienAdaptor;
 use rdvs\infra\repositories\interface\RendezVousRepositoryInterface;
@@ -25,8 +27,13 @@ return [
     RendezVousRepositoryInterface::class => function (ContainerInterface $c) {
         return new PDORendezVousRepository($c->get("rdv.pdo"));
     },
+
+    ServiceMailerInterface::class => function (ContainerInterface $c) {
+        return new ServiceMailer();
+    },
+
     ServiceRendezVousInterface::class => function (ContainerInterface $c) {
-        return new ServiceRendezVous($c->get(RendezVousRepositoryInterface::class), $c->get(ServicePraticienInterface::class), $c->get(ServicePatientInterface::class));
+        return new ServiceRendezVous($c->get(RendezVousRepositoryInterface::class), $c->get(ServicePraticienInterface::class), $c->get(ServicePatientInterface::class), $c->get(ServiceMailerInterface::class));
     },
 
     // TODO : DELETE IT
