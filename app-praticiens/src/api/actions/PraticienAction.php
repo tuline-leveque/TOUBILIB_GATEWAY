@@ -1,6 +1,7 @@
 <?php
 
 namespace praticiens\api\actions;
+use praticiens\core\exceptions\EntityNotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use praticiens\core\application\usecases\interfaces\ServicePraticienInterface;
@@ -34,8 +35,18 @@ class PraticienAction {
             $response->getBody()->write(json_encode($praticien));
 
             return $response->withHeader("Content-Type", "application/json");
+        } catch (EntityNotFoundException $e) {
+            $response->getBody()->write(json_encode([
+                "message" => $e->getMessage(),
+                "exception" => [["type" => "EntityNotFoundException", "code" => 404]]
+            ]));
+            return $response
+                ->withStatus(404) //
+                ->withHeader("Content-Type", "application/json");
+
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            $response->getBody()->write(json_encode(["message" => $e->getMessage()]));
+            return $response->withStatus(500)->withHeader("Content-Type", "application/json");
         }
     }
 }
