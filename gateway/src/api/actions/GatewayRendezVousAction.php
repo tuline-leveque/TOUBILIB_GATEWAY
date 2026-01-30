@@ -35,7 +35,9 @@ class GatewayRendezVousAction {
                 $request->getMethod(),
                 $path,
                 [
-                    'headers' => $headers
+                    'headers' => $headers,
+                    'query'   => $request->getQueryParams(),
+                    'body'    => $request->getBody()
                 ]
             );
 

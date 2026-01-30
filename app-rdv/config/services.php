@@ -10,6 +10,7 @@ use rdvs\core\application\usecases\interfaces\ServiceRendezVousInterface;
 use rdvs\core\application\usecases\ServiceAuthzPatient;
 use rdvs\core\application\usecases\ServiceAuthzPraticien;
 use rdvs\core\application\usecases\ServiceRendezVous;
+use rdvs\infra\adapters\ServicePatientAdaptor;
 use rdvs\infra\adapters\ServicePraticienAdaptor;
 use rdvs\infra\repositories\interface\RendezVousRepositoryInterface;
 use rdvs\infra\repositories\PDORendezVousRepository;
@@ -25,6 +26,10 @@ return [
         return new ServicePraticienAdaptor($c->get("praticiens.guzzle.client"));
     },
 
+    ServicePatientInterface::class => function (ContainerInterface $c) {
+        return new ServicePatientAdaptor($c->get("praticiens.guzzle.client"));
+    },
+
     // SERVICES
     RendezVousRepositoryInterface::class => function (ContainerInterface $c) {
         return new PDORendezVousRepository($c->get("rdv.pdo"));
@@ -35,18 +40,8 @@ return [
     ServiceAuthzPatientInterface::class => function () {
         return new ServiceAuthzPatient();
     },
-
     ServiceAuthzPraticienInterface::class => function () {
         return new ServiceAuthzPraticien();
-    },
-
-    // TODO : DELETE IT
-    \rdvs\infra\repositories\interface\PatientRepositoryInterface::class => function (ContainerInterface $c) {
-        return new \rdvs\infra\repositories\PDOPatientRepository($c->get("pat.pdo"));
-    },
-
-    \rdvs\core\application\usecases\interfaces\ServicePatientInterface::class => function (ContainerInterface $c) {
-        return new \rdvs\core\application\usecases\ServicePatient($c->get(\rdvs\infra\repositories\interface\PatientRepositoryInterface::class));
     }
 ];
 

@@ -2,8 +2,6 @@
 
 namespace rdvs\core\application\usecases\interfaces;
 
-use rdvs\api\dtos\PraticienDTO;
-
 interface ServicePraticienInterface
 {
     public function listerPraticiens(?string $specialite = null, ?string $ville = null): array;
