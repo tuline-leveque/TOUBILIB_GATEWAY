@@ -14,6 +14,7 @@ use rdvs\core\exceptions\CreneauException;
 use rdvs\core\exceptions\EntityNotFoundException;
 use rdvs\core\exceptions\MailException;
 use rdvs\infra\repositories\interface\RendezVousRepositoryInterface;
+use Slim\Logger;
 
 class ServiceRendezVous implements ServiceRendezVousInterface
 {
@@ -188,8 +189,10 @@ class ServiceRendezVous implements ServiceRendezVousInterface
 
             $message_prat = "Nouveau rendez-vous programmé le $dateRdv avec le patient {$patient->nom} {$patient->prenom}.";
             $this->mailer->send($message_prat, $prat->email, "praticien", "CREATE");
-        } catch (Exception $e) {
-            throw new MailException("Erreur lors de l'envoi de l'email de confirmation : " . $e->getMessage(), 503);
+        } catch (MailException $e) {
+            throw new MailException("Erreur lors de l'envoi de l'email de confirmation, message : {$e->getMessage()}");
+        } catch (\JsonException $e) {
+            throw new \JsonException($e->getMessage());
         }
 
         return [

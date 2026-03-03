@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use rdvs\core\application\usecases\interfaces\ServiceRendezVousInterface;
 use rdvs\core\exceptions\CreneauException;
 use rdvs\core\exceptions\EntityNotFoundException;
+use rdvs\core\exceptions\MailException;
 
 class CreateRdvAction {
     private ServiceRendezVousInterface $serviceRdv;
@@ -33,8 +34,12 @@ class CreateRdvAction {
             throw new EntityNotFoundException($e->getEntity() . " introuvable", $e->getEntity());
         } catch(CreneauException $e) {
             throw new CreneauException($e->getMessage());
+        } catch(MailException $e) {
+            throw new MailException($e->getMessage());
+        } catch(\JsonException $e) {
+            throw new \JsonException($e->getMessage());
         } catch (Exception $e) {
-            throw new Exception("Erreur Serveur, réessayer plus tard", 500);
+            throw new Exception("Erreur Serveur, réessayer plus tard, message : {$e->getMessage()}", 500);
         }
 
         return $response->withHeader("Content-Type", "application/json");

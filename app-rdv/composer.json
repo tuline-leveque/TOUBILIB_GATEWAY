@@ -15,7 +15,8 @@
     "ext-pdo": "*",
     "vlucas/phpdotenv": "^5.5",
     "guzzlehttp/guzzle": "^7.9",
-    "php-amqplib/php-amqplib": "^3.7"
+    "php-amqplib/php-amqplib": "^3.7",
+    "phpmailer/phpmailer": "^7.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^11.0",
@@ -29,6 +30,10 @@
     }
   },
   "scripts": {
-    "mail-test" : "php tools/send-mail.php"
+    "mail-test" : "php tools/send-mail.php",
+    "consume": [
+      "Composer\\Config::disableProcessTimeout",
+      "php tools/consumer.php"
+    ]
   }
 }

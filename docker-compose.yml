@@ -36,7 +36,6 @@ services:
       - toubiauth.db
     command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
 
-
   api.rdvs:
     build:
       context: docker/php8.4-cli
@@ -67,8 +66,6 @@ services:
       - toubiprati.db
       - toubiauth.db
     command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
-
-
 
     # service toubiprat.db : base de données postgresql pour les praticiens
   toubiprati.db:
@@ -125,7 +122,12 @@ services:
     networks:
       - toubilib.net
     depends_on:
-      - api.toubilib
+      toubiprati.db:
+        condition: service_started
+      toubiauth.db:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
     command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
 
   #######################################
@@ -148,8 +150,8 @@ services:
     volumes:
       - ./rabbitmq.toubi:/var/lib/rabbitmq
     environment:
-      - RABBITMQ_DEFAULT_USER:user
-      - RABBITMQ_DEFAULT_PASS:pass
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=pass
 
   # Ajouter dans les services qui utilisent le serveur rabbitmq :
   #      depends_on:
