@@ -2,6 +2,7 @@
 
 use auth\api\actions\RegisterPatientAction;
 use auth\api\actions\SigninAction;
+use auth\api\actions\ValidateTokenAction;
 use auth\api\middlewares\AuthnSigninValidationMiddleware;
 use auth\api\middlewares\AuthzAccessRdvDetailMiddleware;
 use auth\api\middlewares\AuthzAccessRdvsMiddleware;
@@ -13,6 +14,7 @@ use auth\core\application\usecases\interfaces\ServiceAuthnInterface;
 use auth\core\application\usecases\interfaces\ServiceAuthzPatientInterface;
 use auth\core\application\usecases\interfaces\ServiceAuthzPraticienInterface;
 use Psr\Container\ContainerInterface;
+use toubilib\core\application\usecases\interfaces\ServiceRendezVousInterface;
 
 return [
     // application
@@ -47,9 +49,11 @@ return [
     AuthnSigninValidationMiddleware::class => function (ContainerInterface $c) {
         return new AuthnSigninValidationMiddleware();
     },
-
     JwtAuthMiddleware::class => function (ContainerInterface $c) {
         return new JwtAuthMiddleware(parse_ini_file($c->get('db.config'))["JWT_SECRET"]);
+    },
+    ValidateTokenAction::class => function (ContainerInterface $c) {
+        return new ValidateTokenAction(parse_ini_file($c->get('db.config'))["JWT_SECRET"]);
     }
 ];
 

@@ -1,38 +1,30 @@
 <?php
 
 namespace praticiens\api\actions;
+use praticiens\core\application\usecases\interfaces\ServicePatientInterface;
 use praticiens\core\exceptions\EntityNotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use praticiens\core\application\usecases\interfaces\ServicePraticienInterface;
 
-class PraticienAction {
-    private ServicePraticienInterface $servicePraticien;
+class PatientAction {
+    private ServicePatientInterface $servicePatient;
 
-    public function __construct(ServicePraticienInterface $servicePraticien) {
-        $this->servicePraticien = $servicePraticien;
+    public function __construct(ServicePatientInterface $servicePatient) {
+        $this->servicePatient = $servicePatient;
     }
 
     /**
      * @throws \Exception
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-        $id_prat = $args['id_prat'] ?? null;
-        if(empty($id_prat)) {
-            throw new \Exception("Saisissez un id de praticien");
+        $id_pat = $args['id_pat'] ?? null;
+        if(empty($id_pat)) {
+            throw new \Exception("Saisissez un id de patient");
         }
 
         try {
-            $praticien = $this->servicePraticien->getPraticien($id_prat);
-            $praticien->links = [
-                "self" => [
-                    "href" => "/praticiens/" . $praticien->id
-                ],
-                "rdvs" => [
-                    "href" => "/praticiens/" . $praticien->id . "/rdvs"
-                ]
-            ];
-            $response->getBody()->write(json_encode($praticien));
+            $patient = $this->servicePatient->getPatient($id_pat);
+            $response->getBody()->write(json_encode($patient));
 
             return $response->withHeader("Content-Type", "application/json");
         } catch (EntityNotFoundException $e) {

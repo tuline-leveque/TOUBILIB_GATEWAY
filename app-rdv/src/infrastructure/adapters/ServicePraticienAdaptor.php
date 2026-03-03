@@ -4,7 +4,6 @@ namespace rdvs\infra\adapters;
 
 use Exception;
 use Psr\Http\Client\ClientInterface;
-use rdvs\api\dtos\PraticienDTO;
 use rdvs\core\application\usecases\interfaces\ServicePraticienInterface;
 
 use GuzzleHttp\Exception\ClientException;

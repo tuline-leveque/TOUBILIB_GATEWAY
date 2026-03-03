@@ -1,6 +1,8 @@
 <?php
 
 use praticiens\api\actions\IndisponibiliteAction;
+use praticiens\api\actions\PatientAction;
+use praticiens\core\application\usecases\interfaces\ServicePatientInterface;
 use Psr\Container\ContainerInterface;
 use praticiens\api\actions\AjouterIndisponibiliteAction;
 use praticiens\api\actions\PraticiensAction;
@@ -20,6 +22,9 @@ return [
     },
     IndisponibiliteAction::class=> function (ContainerInterface $c) {
         return new IndisponibiliteAction($c->get(ServicePraticienInterface::class));
-    }
+    },
+    PatientAction::class=> function (ContainerInterface $c) {
+        return new PatientAction($c->get(ServicePatientInterface::class));
+    },
 ];
 

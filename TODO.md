@@ -6,9 +6,9 @@
 
 # TD 2.2
 - [X] Exercice 1 : Gateway
-- [ ] Exercice 2 : microservice d’authentification
-- [ ] Exercice 3 : validation de tokens JWT
-- [ ] Exercice 4 : middleware d’authentification dans la gateway
+- [X] Exercice 2 : microservice d’authentification
+- [X] Exercice 3 : validation de tokens JWT
+- [X] Exercice 4 : middleware d’authentification dans la gateway
 - [ ] Exercice 5 : autorisations dans le microservice de gestion des RDV
 
 # TD 2.3 Communication par courtier de messages dans une architecture microservices

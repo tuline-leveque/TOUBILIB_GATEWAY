@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use praticiens\api\actions\IndisponibiliteAction;
+use praticiens\api\actions\PatientAction;
 use Slim\App;
 use praticiens\api\actions\AjouterIndisponibiliteAction;
 use praticiens\api\actions\PraticiensAction;
@@ -15,6 +16,8 @@ return function( App $app): App {
     $app->get('/praticiens/{id_prat}', PraticienAction::class); // pas d'authz
 
     $app->get('/praticiens/{id_prat}/indisponibilites', IndisponibiliteAction::class);
+
+    $app->get('/patients/{id_pat}', PatientAction::class);
 
 //    POST
     $app->post("/praticiens/{id_prat}/indisponibilites", AjouterIndisponibiliteAction::class);

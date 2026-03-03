@@ -7,6 +7,11 @@ use rdvs\api\actions\PatientRdvAction;
 use rdvs\api\actions\PraticienRdvAction;
 use rdvs\api\actions\RdvDetailsAction;
 use rdvs\api\actions\ValiderRdvAction;
+use rdvs\api\middlewares\AuthzAccessRdvDetailMiddleware;
+use rdvs\api\middlewares\AuthzAccessRdvsMiddleware;
+use rdvs\api\middlewares\JwtAuthMiddleware;
+use rdvs\core\application\usecases\interfaces\ServiceAuthzPatientInterface;
+use rdvs\core\application\usecases\interfaces\ServiceAuthzPraticienInterface;
 use rdvs\core\application\usecases\interfaces\ServiceRendezVousInterface;
 
 return [
@@ -28,6 +33,15 @@ return [
     },
     PatientRdvAction::class=> function (ContainerInterface $c) {
         return new PatientRdvAction($c->get(ServiceRendezVousInterface::class));
+    },
+    JwtAuthMiddleware::class => function (ContainerInterface $c) {
+        return new JwtAuthMiddleware(parse_ini_file($c->get('db.config'))["JWT_SECRET"]);
+    },
+    AuthzAccessRdvDetailMiddleware::class => function (ContainerInterface $c) {
+        return new AuthzAccessRdvDetailMiddleware($c->get(ServiceAuthzPatientInterface::class), $c->get(ServiceAuthzPraticienInterface::class), $c->get(ServiceRendezVousInterface::class));
+    },
+    AuthzAccessRdvsMiddleware::class => function (ContainerInterface $c) {
+        return new AuthzAccessRdvsMiddleware($c->get(ServiceAuthzPraticienInterface::class));
     }
 ];
 
